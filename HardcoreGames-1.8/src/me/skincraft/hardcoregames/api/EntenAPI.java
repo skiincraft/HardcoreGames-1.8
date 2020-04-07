@@ -52,13 +52,19 @@ import net.minecraft.server.v1_8_R3.PlayerConnection;
 
 
 public class EntenAPI {
+	 
+	/*
+	 * Essa API foi criada por um Programador chamado "Enten";
+	 * Dou todos os creditos dela para ele, essa API me poupou muito tempo
+	 * Fazer isso do zero iria demorer muito.
+	 * Sou muito grato por isso...
+	 */
+	
 	
 	Main friends;
-	String cp;
 
-	public EntenAPI(Main friends, String defaultplayercolor) {
+	public EntenAPI(Main friends) {
 		this.friends = friends;
-		this.cp = defaultplayercolor;
 	}
 	
 	public ItemStack createItemwithID(int id, int subid, int amount, String DisplayName, ArrayList<String> lore) {
@@ -319,11 +325,9 @@ public class EntenAPI {
 	 */
 
 	public void refreshPlayer(Player player) {
-		player.setExp(0);
 		player.setFoodLevel(20);
 		player.setHealth(20);
 		player.setExp(0.0F);
-		player.setLevel(0);
 		player.setFireTicks(0);
 		player.setGameMode(GameMode.SURVIVAL);
 
@@ -363,10 +367,6 @@ public class EntenAPI {
 	public Object getRandomObject(List<Object> list) {
 		int rn = getRandom(list.size());
 		return list.get(rn);
-	}
-
-	public String getPlayerName(Player player) {
-		return cp + player.getDisplayName();
 	}
 
 	public void connect(Player player, String servername) {

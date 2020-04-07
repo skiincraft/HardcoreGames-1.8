@@ -1,0 +1,6 @@
+main: me.skincraft.hardcoregames.Main
+name: LystMC
+version: 1.0
+author: SkiinCraft
+commands:
+  checker:

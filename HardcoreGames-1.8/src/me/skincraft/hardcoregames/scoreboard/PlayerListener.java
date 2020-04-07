@@ -5,9 +5,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import me.skincraft.hardcoregames.timers.State;
+import me.skincraft.hardcoregames.timers.TimersManager;
 
 public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
@@ -28,5 +32,12 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onQuit(final PlayerQuitEvent e) {
 		SManager.getPlayers().remove(e.getPlayer().getUniqueId());
+	}
+	
+	@EventHandler
+	public void precommand(PlayerCommandPreprocessEvent e) {
+		if (e.getMessage().toLowerCase().startsWith("/ola")) {
+			new TimersManager().setTimer(State.Iniciando, 31);
+		}
 	}
 }

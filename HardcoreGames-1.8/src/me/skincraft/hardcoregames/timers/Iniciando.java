@@ -10,26 +10,29 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import me.skincraft.hardcoregames.Main;
+import me.skincraft.hardcoregames.api.EntenAPI;
 
 public class Iniciando {
 	
 	private static Integer runnable = null;
 	private String[] messages = new String[]
-			{"Â§3Â§l" + "INICIO Â» ",
-			"Â§7A partida ira iniciar em "};
+			{"§3§l" + "INICIO » ",
+			"§7A partida ira iniciar em "};
 	
 	public Iniciando() {
-		TimersManager state = new TimersManager();
+		/*TimersManager state = new TimersManager();
+		
 		if (!(state.getState() == (State.Iniciando))) {
 			return;
 		}
+		*/
 		new TimersManager().setState(State.Iniciando);
 		startRunnable();
 	}
 	
 	public void startRunnable() {
 		new TimersManager().setTimer(State.Iniciando, 5*60);
-		runnable = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new Runnable() {
+		runnable = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getMain(), new Runnable() {
 			@Override
 			public void run() {
 				int players = 0;
@@ -58,13 +61,37 @@ public class Iniciando {
 							p.closeInventory();
 						}
 					}
-					new TimersManager().setTimer(State.Iniciando, tempo--);
+					new TimersManager().setTimer(State.Iniciando, tempo-1);
 				} else {
-					new Invencibilidade();
+					iniciarPartida();
 					cancelRunnable();
 				}
 			}
-		}, 0, 20L);		
+		}, 0, 20L);
+	}
+	
+	public static void iniciarPartida() {
+		new Invencibilidade();
+		int size = Bukkit.getOnlinePlayers().size();
+		String[] startMessage = new String[] 
+				{Main.getMain().servername, 
+						" §fPartida iniciada!",
+						" §fVoce tem §a2m §7de invencibilidade!",
+						" §fExiste com você §a" + size + "/"	+ Bukkit.getMaxPlayers() + " §7Jogadores participando!"};
+		
+		for (int i = 1; i < startMessage.length; i++) {
+			Bukkit.broadcastMessage(startMessage[0] + startMessage[i]);
+		}
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			
+			player.playSound(player.getLocation(), Sound.AMBIENCE_RAIN, 4.0F, 4.0F);
+			player.playSound(player.getLocation(), Sound.PORTAL, 2.0F, 1.0F);
+			new EntenAPI(Main.getMain());
+			
+			new EntenAPI(Main.getMain()).refreshPlayer(player);
+			new EntenAPI(Main.getMain()).sendTitle(player, startMessage[0], "Boa sorte!");
+		}
 	}
 	
 	private void broadcast(int tempo) {

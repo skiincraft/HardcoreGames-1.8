@@ -1,31 +1,26 @@
 package me.skincraft.hardcoregames.timers;
 
 import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import me.skincraft.hardcoregames.Main;
+import me.skincraft.hardcoregames.api.EntenAPI;
 
 public class Invencibilidade {
 
 	private static Integer runnable = null;
 	private String[] messages = new String[]
-			{"Â§eA Invencibilidade ira acabar em "};
+			{"§eA Invencibilidade ira acabar em "};
 	
 	public Invencibilidade() {
-		TimersManager state = new TimersManager();
-		if (!(state.getState() == (State.Invencibilidade))) {
-			return;
-		}
 		new TimersManager().setState(State.Invencibilidade);
 		startRunnable();
 	}
 	
 	public void startRunnable() {
 		new TimersManager().setTimer(State.Invencibilidade, 2*60);
-		runnable = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new Runnable() {
-			@SuppressWarnings("deprecation")
+		runnable = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getMain(), new Runnable() {
 			@Override
 			public void run() {
 				int tempo = new TimersManager().getTimer(State.Invencibilidade);
@@ -37,16 +32,24 @@ public class Invencibilidade {
 							p.setHealth(20);
 						}
 					}
-					new TimersManager().setTimer(State.Invencibilidade, tempo--);
+					new TimersManager().setTimer(State.Invencibilidade, tempo-1);
 				} else {
-					for (Player p : Bukkit.getOnlinePlayers()) {
-						p.sendTitle("Boa sorte!", "invencibilidade acabou");
-						p.playSound(p.getLocation(), Sound.LEVEL_UP, 10f, 10f);
-					}
+					iniciarPartida();
 					cancelRunnable();
 				}
 			}
 		}, 0, 20L);		
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static void iniciarPartida() {
+		new Andamento(2*60);
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			player.sendTitle("Boa sorte!", "invencibilidade acabou");
+			player.playSound(player.getLocation(), Sound.LEVEL_UP, 10f, 10f);
+			
+			new EntenAPI(Main.getMain()).refreshPlayer(player);
+		}
 	}
 	
 	private void broadcast(int tempo) {

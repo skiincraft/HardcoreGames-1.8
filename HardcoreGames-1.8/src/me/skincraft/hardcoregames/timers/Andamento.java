@@ -16,13 +16,9 @@ public class Andamento {
 	private static Integer runnable = null;
 	private int startingTime;
 	private String[] messages = new String[]
-			{"Â§eUm minifeast nasceu entre: "};
+			{"§eUm minifeast nasceu entre: "};
 	
 	public Andamento(int startingTime) {
-		TimersManager state = new TimersManager();
-		if (!(state.getState() == (State.Iniciando))) {
-			return;
-		}
 		new TimersManager().setState(State.Andamento);
 		this.startingTime = startingTime;
 		startRunnable();
@@ -30,20 +26,20 @@ public class Andamento {
 	
 	public void startRunnable() {
 		new TimersManager().setTimer(State.Andamento, startingTime);
-		runnable = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getPlugin(), new Runnable() {
+		runnable = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getMain(), new Runnable() {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void run() {
-				int tempo = new TimersManager().getTimer(State.Invencibilidade);
-				new TimersManager().setTimer(State.Andamento, tempo++);
+				int tempo = new TimersManager().getTimer(State.Andamento);
+				new TimersManager().setTimer(State.Andamento, tempo+1);
 				
-				minifeastSpawns(new TimersManager().getTimer(State.Invencibilidade));
+				minifeastSpawns(new TimersManager().getTimer(State.Andamento));
 				
 				if(tempo == 2100) {
 					criarAreaBatle();
 					for (Player player : Bukkit.getOnlinePlayers()) {
-						player.sendTitle("Â§6Â§lFINAL BATTLE", null);
-						new EntenAPI(Main.getMain(),"Â§7").sendActionbar("Â§5VocÃª esta na arena final!", player);
+						player.sendTitle("§6§lFINAL BATTLE", null);
+						new EntenAPI(Main.getMain()).sendActionbar("§5Você esta na arena final!", player);
 					}
 				}
 				

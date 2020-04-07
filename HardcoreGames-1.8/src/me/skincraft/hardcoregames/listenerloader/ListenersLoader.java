@@ -18,7 +18,7 @@ public class ListenersLoader {
 	public void load() {
 		ConsoleCommandSender s = Bukkit.getConsoleSender();
 		s.sendMessage("§e§l|COMEÇANDO A CARREGAR OS RECURSOS|");
-		for (Class<?> classes : ClassGetter.getClassesForPackage(Main.getPlugin(Main.class), "me.skincraft.lystmc")) {
+		for (Class<?> classes : ClassGetter.getClassesForPackage(Main.getPlugin(Main.class), "me.skincraft.hardcoregames")) {
 			try {
 				if (Listener.class.isAssignableFrom(classes)) {
 					Listener listener = (Listener) classes.newInstance();
