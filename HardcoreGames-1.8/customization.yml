@@ -1,0 +1,57 @@
+#
+# Variaveis disponivies!
+# <kit1> - <kit2> - <players>
+# <timer> - <xp> - <site>
+# <kills>
+# Lembre-se que o limite: 16 linhas
+
+# SCOREBOARD
+Scoreboard:
+  Iniciando:
+   - '&f'
+   - '&fIniciando em: <timer>'
+   - '&fJogadores: <players>'
+   - '&f'
+   - '§fKit 1: <kit1>'
+   - '§fKit 2: <kit2>'
+   - '&f'
+   - '&fXP: <xp>'
+   - '&f'
+   - '&e<site>'
+  Invencibilidade:
+   - '&f'
+   - '&fInvencibilidade: <timer>'
+   - '&fJogadores: <players>'
+   - '&f'
+   - '§fKit 1: <kit1>'
+   - '§fKit 2: <kit2>'
+   - '&f'
+   - '&fXP: <xp>'
+   - '&f'
+   - '&e<site>'
+  Andamento:
+   - '&f'
+   - '&fTempo: <timer>'
+   - '&fJogadores: <players>'
+   - '&f'
+   - '§fKit 1: <kit1>'
+   - '§fKit 2: <kit2>'
+   - '&f'
+   - '&fKills: <kills>'
+   - '&f'
+   - '&e<site>'
+# Variavel <line> - <servername>
+# <discord> - <site> - <twitter>
+Tablist:
+  Cima:
+   - '<servername>'
+   - '<line>'
+  Baixo:
+   - 'Discord: <discord>'
+   - 'Website: <site>'
+   - 'Twitter: <twitter>'
+# Coloque as informações basicas
+# 
+Discord: '&6Discord.com/lystmc'
+Site: '&6mc.lystmc.com'
+Twitter: '&6@LystMC'

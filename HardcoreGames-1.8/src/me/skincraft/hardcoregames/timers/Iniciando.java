@@ -11,6 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import me.skincraft.hardcoregames.Main;
 import me.skincraft.hardcoregames.api.EntenAPI;
+import me.skincraft.hardcoregames.managers.PlayerHGManager;
 
 public class Iniciando {
 	
@@ -43,8 +44,10 @@ public class Iniciando {
 						broadcastTimer(tempo);
 					}
 					if (tempo <= 30) {
-						if (players <= 5) {
-							new TimersManager().setTimer(State.Iniciando, 150);
+						if (players < 5) {
+							tempo = 150;
+							new TimersManager().setTimer(State.Iniciando, tempo);
+							Main.getMain().getLogger().info("Tempo da partida foi resetado pois não há players suficiente");
 						}
 					}
 					
@@ -63,8 +66,14 @@ public class Iniciando {
 					}
 					new TimersManager().setTimer(State.Iniciando, tempo-1);
 				} else {
+					if (players < 5) {
+						tempo = 150;
+						new TimersManager().setTimer(State.Iniciando, tempo);
+						Main.getMain().getLogger().info("Tempo da partida foi resetado pois não há players suficiente");
+					} else {
 					iniciarPartida();
 					cancelRunnable();
+					}
 				}
 			}
 		}, 0, 20L);
@@ -72,7 +81,7 @@ public class Iniciando {
 	
 	public static void iniciarPartida() {
 		new Invencibilidade();
-		int size = Bukkit.getOnlinePlayers().size();
+		int size = PlayerHGManager.getPlayerSize();
 		String[] startMessage = new String[] 
 				{Main.getMain().servername, 
 						" §fPartida iniciada!",

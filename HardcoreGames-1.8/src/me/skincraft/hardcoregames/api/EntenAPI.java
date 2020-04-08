@@ -761,8 +761,7 @@ class Hologram {
 	}
 
 }
-
-class Particle {
+ class Particle {
 
 	EnumParticle particletype;
 	boolean longdistance;

@@ -12,6 +12,8 @@ import org.henrya.pingapi.PingReply;
 import org.henrya.pingapi.StringUtils;
 
 import me.skincraft.hardcoregames.Main;
+import me.skincraft.hardcoregames.managers.PlayerHGManager;
+import me.skincraft.hardcoregames.managers.PlayerHGManager.PlayerState;
 import me.skincraft.hardcoregames.timers.TimersManager;
 
 public class MotdListeners implements PingListener {
@@ -51,8 +53,11 @@ public class MotdListeners implements PingListener {
 			ping.setProtocolName("§4RESERVADO");
 		}
 
+		int adminsize = PlayerHGManager.getSize(PlayerState.ADMINMODE);
+		int spectatorsize = PlayerHGManager.getSize(PlayerState.SPECTATOR);
+		
 		ping.setMaxPlayers(80);
-		ping.setOnlinePlayers(Bukkit.getOnlinePlayers().size());
+		ping.setOnlinePlayers(Bukkit.getOnlinePlayers().size() - adminsize - spectatorsize);
 		
 		TimersManager construtor = new TimersManager();
 		String timer = convertTime(construtor.getTimer());
@@ -114,5 +119,11 @@ public class MotdListeners implements PingListener {
 
 		ping.setPlayerSample(list_server);
 		ping.setIcon(getIcon());
+		
+		// Enviar motd para o BungeeCord
+		/*ServerInfoPacket a = event.createNewPacket(ping);
+		a.send();
+		event.setCancelled(true);
+		*/
 	}
 }

@@ -1,11 +1,16 @@
 package me.skincraft.hardcoregames.timers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import me.skincraft.hardcoregames.Main;
 import me.skincraft.hardcoregames.api.EntenAPI;
+import me.skincraft.hardcoregames.managers.PlayerHGManager;
+import me.skincraft.hardcoregames.managers.PlayerHGManager.PlayerState;
 
 public class Invencibilidade {
 
@@ -15,7 +20,19 @@ public class Invencibilidade {
 	
 	public Invencibilidade() {
 		new TimersManager().setState(State.Invencibilidade);
+		transferlist();
 		startRunnable();
+	}
+	
+	private void transferlist() {
+		List<String> a = new ArrayList<String>();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			List<String> hold = PlayerHGManager.getList(PlayerState.HOLD);
+			if (hold.contains(player.getName())){
+				a.add(player.getName());
+			}
+		}
+		PlayerHGManager.setList(PlayerState.ALIVE, a);
 	}
 	
 	public void startRunnable() {
@@ -47,7 +64,7 @@ public class Invencibilidade {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			player.sendTitle("Boa sorte!", "invencibilidade acabou");
 			player.playSound(player.getLocation(), Sound.LEVEL_UP, 10f, 10f);
-			
+			PlayerHGManager.HGManagerUtils.hold.clear();
 			new EntenAPI(Main.getMain()).refreshPlayer(player);
 		}
 	}

@@ -1,0 +1,41 @@
+# PLUGIN CRIADO POR SKIINCRAFT,CASO TENHA COMPRADOR ESSE PLUGIN
+# DESCONSIDERE ESTA MENSAGEM.OS QUE USAREM ESTE PLUGIN SEM PERMISSAO
+# OU NAO COMPRADO, ESTA SUJEITO A PROCESSO JUDICIAL.
+# SkiinCraft todos os direitos reservados!
+
+# GameConfig:
+Servername: 'LystMC'
+ServerIP: 'A1'
+MinimoPlayers: 5
+RaioaoMorrer: false
+
+#DiscordWebhookSystem
+DiscordWebhook: false
+
+#Permissions
+PermissionInterna: true
+
+#CoordenadasSpawns
+Spawn:
+  X: 3.5
+  Y: 206.0
+  Z: 2.5
+  Pitch: 0.0
+  Yaw: 0.0
+Practice:
+  X: 3.5
+  Y: 206.0
+  Z: 2.5
+  Pitch: 0.0
+  Yaw: 0.0
+# MYSQL
+MySQL:
+ Host: null
+ Port: null
+ User: null
+ Password: null
+ Database: null
+
+#BROADCASTMESSAGE
+Messages:
+- '' 
