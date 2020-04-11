@@ -2,6 +2,7 @@ package me.skincraft.hardcoregames.customevents;
 
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -35,6 +36,10 @@ public class WinnerEvent {
 	}
 	
 	public void verificarWin() {
+		boolean b = true;
+		if (b == true) {
+			return;
+		}
 		if (!(new TimersManager().getState() == State.Andamento)) {
 			return;
 		}
@@ -48,6 +53,7 @@ public class WinnerEvent {
 		}
 		
 		new TimersManager().setState(State.Finalizando);
+		
 		for (String playername : PlayerHGManager.getList(PlayerState.ALIVE)) {
 			Player player = Bukkit.getPlayer(playername);
 			player.getInventory().clear();
@@ -144,11 +150,23 @@ public class WinnerEvent {
 	
 	private void invalidUsable(Type type) {
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			player.kickPlayer("§4§lServidor Reiniciando!" + "\n" + 
-		                      "§7O jogo foi encerrado pois o §7§lSISTEMA não" + "\n" +
-					          "§7encontrou nenhum player em estado §e§lALIVE" + "\n" +
-		                      "\n§fEntre em contato com o Developer");
+			String[] kickmessage = new String[] 
+					{"§4§lServidor Reiniciando!", "",
+							"§7O jogo foi encerrado pois o §7§lSISTEMA§7 não",
+							"§7encontrou nenhum player em estado §e§lALIVE",
+							"", "§fEntre em contato com o Developer"};
+			String s = StringUtils.join(kickmessage, "\n");
+			player.kickPlayer(s);
 		}
+		Bukkit.getScheduler().runTaskLater(Main.getMain(), new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				Bukkit.shutdown();
+			}
+		}, 15);
+		
 	}
 	
 }

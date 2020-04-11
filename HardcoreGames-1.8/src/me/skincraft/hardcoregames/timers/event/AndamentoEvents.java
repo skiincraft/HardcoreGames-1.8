@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import me.skincraft.hardcoregames.timers.TimersManager;
 
-public class FinalizandoEvents implements Listener {
+public class AndamentoEvents implements Listener {
 
 	@EventHandler
 	public void noBreakBlocks(BlockBreakEvent e) {

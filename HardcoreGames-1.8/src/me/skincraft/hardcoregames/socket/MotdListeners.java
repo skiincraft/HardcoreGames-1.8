@@ -43,6 +43,7 @@ public class MotdListeners implements PingListener {
 		return formattedTime;
 	}
 	
+	@SuppressWarnings("unused")
 	@Override
 	public void onPing(PingEvent event) {
 
@@ -56,7 +57,7 @@ public class MotdListeners implements PingListener {
 		int adminsize = PlayerHGManager.getSize(PlayerState.ADMINMODE);
 		int spectatorsize = PlayerHGManager.getSize(PlayerState.SPECTATOR);
 		
-		ping.setMaxPlayers(80);
+		ping.setMaxPlayers(1);
 		ping.setOnlinePlayers(Bukkit.getOnlinePlayers().size() - adminsize - spectatorsize);
 		
 		TimersManager construtor = new TimersManager();

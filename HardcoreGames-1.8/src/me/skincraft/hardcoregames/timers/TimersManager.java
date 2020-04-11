@@ -23,13 +23,16 @@ public class TimersManager {
 		if (Timers.matchState == State.Iniciando) {
 			Iniciando.cancelRunnable();
 			new Invencibilidade();
+			return;
 		}
 		if (Timers.matchState == State.Invencibilidade) {
 			Invencibilidade.cancelRunnable();
 			new Andamento(2*60);
+			return;
 		}
 		if (Timers.matchState == State.Andamento) {
 			Andamento.cancelRunnable();
+			return;
 		}
 		return;
 	}

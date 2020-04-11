@@ -17,17 +17,19 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 import me.skincraft.hardcoregames.Main;
 import me.skincraft.hardcoregames.api.CustomizationFile;
-import me.skincraft.hardcoregames.api.EntenAPI;
+import me.skincraft.hardcoregames.api.UtilsAPI;
 import me.skincraft.hardcoregames.managers.GroupsManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager.PlayerState;
 import me.skincraft.hardcoregames.managers.GroupsManager.Cargos;
 import me.skincraft.hardcoregames.mysql.SQLPlayers;
+import me.skincraft.hardcoregames.playerdeathevent.PlayerRespawnManager;
 import me.skincraft.hardcoregames.timers.TimersManager;
-import me.skincraft.hardcoregames.utils.SpectatorUtils;
 
 public class PlayerLoginsEvents implements Listener {
 
+	UtilsAPI util = new UtilsAPI(Main.getMain());
+	
 	@EventHandler
 	public void checkPlayerLogin(PlayerLoginEvent e) {
 		Player player = e.getPlayer();
@@ -93,6 +95,7 @@ public class PlayerLoginsEvents implements Listener {
 	
 	@EventHandler
 	public void combatQuitEvent(PlayerQuitEvent e) {
+		e.setQuitMessage(null);
 		if (!new TimersManager().isAndamento()) {
 			return;
 		}
@@ -109,8 +112,16 @@ public class PlayerLoginsEvents implements Listener {
 			@Override
 			public void run() {
 				relog.put(name, false);
+				if (!e.getPlayer().isOnline()) {
+					Bukkit.broadcastMessage("§7" + name + " demorou muito para relogar.");
+					PlayerRespawnManager mm = new PlayerRespawnManager(e.getPlayer());					
+					mm.addDeathPlayer();
+					if (PlayerHGManager.getList(PlayerState.ALIVE).contains(name)) {
+						new PlayerHGManager(e.getPlayer()).addDeadState();
+					}
+				}
 			}
-		}, (2*60)*20L);
+		}, 30*20L);//(1*60+30)*20L);//1m 30s
 	}
 	
 	@EventHandler
@@ -119,6 +130,7 @@ public class PlayerLoginsEvents implements Listener {
 		if (!new TimersManager().isAndamento()) {
 			return;
 		}
+		PlayerRespawnManager mm = new PlayerRespawnManager(player);	
 		GroupsManager group = new GroupsManager(new SQLPlayers(player));
 		
 		if (relog.containsKey(player.getName())) {
@@ -130,21 +142,29 @@ public class PlayerLoginsEvents implements Listener {
 			
 			if (relog.get(player.getName()) == false) {
 				if (group.hasPermission(Cargos.VIP, "vip.espectar")) {
-					e.allow();
-					player.sendMessage("§cVocê demorou muito para relogar e foi desqualificado.");
+					e.allow();	
+					util.SendTaskLaterMessage(player, 1, "§cVocê demorou muito para relogar e foi desqualificado.");
+					
 					if (new TimersManager().getTimer() >= 300) {
 						player.eject();
-						SpectatorUtils.addPlayerSpectator(player);
+						
+						Bukkit.getScheduler().runTaskLater(Main.getMain(), new Runnable() {
+							@Override
+							public void run() {
+								mm.addSpectatorMode();
+							}
+						}, 20L);
 						return;
 					}
 					
 					e.allow();
-					player.teleport(PlayerRespawnEvents.randomSpawnLocation());
-					new EntenAPI(Main.getMain()).refreshPlayer(player);
-					String[] a = new String[] {"","§cVocê acabou de renascer",
-							"§eAgora você tem que se arrumar novamente!"};
-					//Dar itens do kit
-					player.sendMessage(a);
+										
+					Bukkit.getScheduler().runTaskLater(Main.getMain(), new Runnable() {
+						@Override
+						public void run() {
+							mm.respawnPlayer();
+						}
+					}, 20L);
 					return;
 				}
 				String[] str = new String[] {
@@ -161,19 +181,24 @@ public class PlayerLoginsEvents implements Listener {
 		if (PlayerHGManager.getList(PlayerState.DEAD).contains(player.getName())) {
 			if (group.hasPermission(Cargos.VIP, "vip.espectar")) {
 				e.allow();
-				player.sendMessage("§cVocê morreu e foi desqualificado!");
+				util.SendTaskLaterMessage(player, 1, "§cVocê morreu e foi desqualificado!");
 				if (new TimersManager().getTimer() >= 300) {
 					player.eject();
-					SpectatorUtils.addPlayerSpectator(player);
+					Bukkit.getScheduler().runTaskLater(Main.getMain(), new Runnable() {
+						@Override
+						public void run() {
+							mm.addSpectatorMode();
+						}
+					}, 20L);
 					deslogouCombat.remove(player.getName());
 					return;
-				}
-				player.teleport(PlayerRespawnEvents.randomSpawnLocation());
-				new EntenAPI(Main.getMain()).refreshPlayer(player);
-				String[] a = new String[] {"","§cVocê acabou de renascer",
-						"§eAgora você tem que se arrumar novamente!"};
-				//Dar itens do kit
-				player.sendMessage(a);
+				}			
+				Bukkit.getScheduler().runTaskLater(Main.getMain(), new Runnable() {
+					@Override
+					public void run() {
+						mm.respawnPlayer();
+					}
+				}, 20L);
 				return;
 			}
 			String[] str = new String[] {
@@ -187,21 +212,26 @@ public class PlayerLoginsEvents implements Listener {
 		}
 
 		if (deslogouCombat.contains(player.getName())) {
-			if (group.hasPermission(Cargos.VIP, "vip.serverfull")) {
+			if (group.hasPermission(Cargos.VIP, "vip.espectar")) {
 				e.allow();
-				player.sendMessage("§cVocê deslogou em combate, e foi desqulificado.");
+				util.SendTaskLaterMessage(player, 1, "§cVocê deslogou em combate, e foi desqulificado.");
 				if (new TimersManager().getTimer() >= 300) {
 					player.eject();
-					SpectatorUtils.addPlayerSpectator(player);
+					Bukkit.getScheduler().runTaskLater(Main.getMain(), new Runnable() {
+						@Override
+						public void run() {
+							mm.addSpectatorMode();
+						}
+					}, 20L);
 					deslogouCombat.remove(player.getName());
 					return;
-				}
-				player.teleport(PlayerRespawnEvents.randomSpawnLocation());
-				new EntenAPI(Main.getMain()).refreshPlayer(player);
-				String[] a = new String[] {"","§cVocê acabou de renascer",
-						"§eAgora você tem que se arrumar novamente!"};
-				//Dar itens do kit
-				player.sendMessage(a);
+				}			
+				Bukkit.getScheduler().runTaskLater(Main.getMain(), new Runnable() {
+					@Override
+					public void run() {
+						mm.respawnPlayer();
+					}
+				}, 20L);
 				return;
 			}
 			String[] str = new String[] {
@@ -217,15 +247,22 @@ public class PlayerLoginsEvents implements Listener {
 		if (new TimersManager().getTimer() >=300) {
 			if (group.hasPermission(Cargos.VIP, "vip.espectar")) {
 				player.eject();
-				SpectatorUtils.addPlayerSpectator(player);
+				util.SendTaskLaterMessage(player, 1, "§cVocê conectou em uma partida em andamento");
+				Bukkit.getScheduler().runTaskLater(Main.getMain(), new Runnable() {
+					@Override
+					public void run() {
+						mm.addSpectatorMode();
+					}
+				}, 20L);
 				return;
-			}
-			player.teleport(PlayerRespawnEvents.randomSpawnLocation());
-			new EntenAPI(Main.getMain()).refreshPlayer(player);
-			String[] a = new String[] {"","§cVocê acabou de renascer",
-					"§eAgora você tem que se arrumar novamente!"};
-			//Dar itens do kit
-			player.sendMessage(a);
+			}			
+			Bukkit.getScheduler().runTaskLater(Main.getMain(), new Runnable() {
+				@Override
+				public void run() {
+					mm.respawnPlayer();
+				}
+			}, 15L);
+			return;
 		}
 	}
 	
@@ -237,17 +274,20 @@ public class PlayerLoginsEvents implements Listener {
 		}
 		String[] str = new String[] 
 				{"§c§lFAILED TO CONNECT","",
-						"§cEsse servidor está lotado!.","",
-				        "§ePara ter acesso a servidores lotados,", "",
-				        "§eAcesse a loja em: " + new CustomizationFile().getWebsite()};
+						"§cEsse servidor está lotado!","",
+				        "§ePara ter acesso a servidores lotados,",
+				        "§eAcesse a loja em: " + new CustomizationFile().getWebsite().replace("&", "§")};
 		GroupsManager group = new GroupsManager(new SQLPlayers(player));
 		if (e.getResult() == Result.KICK_FULL) {
 			if (group.hasPermission(Cargos.VIP, "vip.serverfull")) {
+				util.SendTaskLaterMessage(player, 1, "§bVocê conectou em uma servidor lotado.");
 				e.allow();
 				return;
 			}
 			
-			e.setKickMessage(StringUtils.join(str, "\n"));
+			String full = StringUtils.join(str, "\n");
+			
+			e.setKickMessage(full);
 			e.disallow(PlayerLoginEvent.Result.KICK_OTHER, e.getKickMessage());
 		}
 		

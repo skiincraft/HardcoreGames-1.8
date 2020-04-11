@@ -33,6 +33,9 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 import me.skincraft.hardcoregames.Main;
+import me.skincraft.hardcoregames.api.API_Form.Form;
+import me.skincraft.hardcoregames.api.API_Form.ParticleType;
+import me.skincraft.hardcoregames.bossbar.BossBarAPI;
 import net.minecraft.server.v1_8_R3.EntityArmorStand;
 import net.minecraft.server.v1_8_R3.EntityInsentient;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -66,6 +69,18 @@ public class EntenAPI {
 	public EntenAPI(Main friends) {
 		this.friends = friends;
 	}
+	
+	public void BarAPI(Player p, String menssagem){
+		
+		int numero = 20;
+				BossBarAPI.setMessage(p, menssagem);
+				Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getPlugin(), new Runnable() {
+					public void run() {
+						BossBarAPI.removeBar(p);
+					}
+				}, numero * 4);
+	}
+
 	
 	public ItemStack createItemwithID(int id, int subid, int amount, String DisplayName, ArrayList<String> lore) {
 
@@ -492,6 +507,7 @@ public class EntenAPI {
 		fly.setLocation(location);
 		fly.setHeight(2.25);
 		fly.setItemStack(item);
+		
 		fly.spawn();
 
 		return fly;
@@ -619,6 +635,16 @@ public class EntenAPI {
 			hologram.hidePlayer(player);
 			holo.remove(player);
 		}
+	}
+	
+	public void playForm(Player player) {
+		API_Form form = new API_Form();
+		form.playEffectWithForm(player.getLocation(), ParticleType.REDSTONE, Form.SPHERE, 2, 1, 0.2F);
+	}
+	
+	public void particle(Player player) {
+		Particle par = new Particle(EnumParticle.FLAME, player.getLocation(), true, 0.3F, 0.3F, 0.3F, 0.3F, 23);
+		par.sendPlayer(player);
 	}
 
 }

@@ -1,6 +1,8 @@
 package me.skincraft.hardcoregames.scoreboard;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -9,8 +11,11 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
-import me.skincraft.hardcoregames.timers.State;
+import me.skincraft.hardcoregames.Main;
+import me.skincraft.hardcoregames.api.EntenAPI;
+import me.skincraft.hardcoregames.playerdeathevent.PlayerRespawnManager;
 import me.skincraft.hardcoregames.timers.TimersManager;
 
 public class PlayerListener implements Listener {
@@ -31,13 +36,25 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onQuit(final PlayerQuitEvent e) {
+		e.setQuitMessage(null);
 		SManager.getPlayers().remove(e.getPlayer().getUniqueId());
 	}
 	
 	@EventHandler
 	public void precommand(PlayerCommandPreprocessEvent e) {
 		if (e.getMessage().toLowerCase().startsWith("/ola")) {
-			new TimersManager().setTimer(State.Iniciando, 31);
+			Player player = e.getPlayer();
+			@SuppressWarnings("unused")
+			String[] message = new String[] {"§3§lIsso é um holograma","		","§aParabéns §c@SkiinCraft §aVocê se tornará um desemvolvedor!","		",
+					"§bOlá mundo!"};
+			new EntenAPI(Main.getMain()).spawnFlyingItem(new ItemStack(Material.APPLE), player.getLocation().add(1, 0.5, 0));
+			new TimersManager().changeNextState();
+			player.eject();
+			e.setCancelled(true);
+		}
+		
+		if (e.getMessage().toLowerCase().startsWith("/desisto")) {
+			new PlayerRespawnManager(e.getPlayer()).addSpectatorMode();
 		}
 	}
 }

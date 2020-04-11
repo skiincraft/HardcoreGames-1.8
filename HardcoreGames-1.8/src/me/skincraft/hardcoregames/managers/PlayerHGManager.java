@@ -98,6 +98,12 @@ public class PlayerHGManager {
 		}
 	}
 	
+	public void removeAdmin() {
+		if (getPlayerState().equals(PlayerState.ADMINMODE)) {
+			HGManagerUtils.admin.remove(player.getName());
+		}
+	}
+	
 	public void removeState() {
 		if (getPlayerState().equals(PlayerState.ALIVE)) {
 			HGManagerUtils.alive.remove(player.getName());

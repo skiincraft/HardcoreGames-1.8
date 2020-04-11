@@ -52,11 +52,11 @@ public class SpectateInventoryEvents implements Listener{
 			String hand_DisplayName = ItemInHand.getItemMeta().getDisplayName();
 			if (!ItemInHand.getItemMeta().hasDisplayName())return;
 			
-			List<String> speclist =PlayerHGManager.getList(PlayerState.SPECTATOR);
+			List<String> speclist = PlayerHGManager.getList(PlayerState.ALIVE);
 			
 			if (hand_DisplayName.equals(stacklist.get(0).getItemMeta().getDisplayName())) {
 				if (!anteTP.containsKey(player.getName())) {
-					if (PlayerHGManager.getSize(PlayerState.SPECTATOR) == 0) {
+					if (PlayerHGManager.getSize(PlayerState.ALIVE) == 0) {
 						return;
 					}
 					anteTP.put(player.getName(), 0);
@@ -71,13 +71,13 @@ public class SpectateInventoryEvents implements Listener{
 			
 			if (hand_DisplayName.equals(stacklist.get(2).getItemMeta().getDisplayName())) {
 				if (!anteTP.containsKey(player.getName())) {
-					if (PlayerHGManager.getSize(PlayerState.SPECTATOR) == 0) {
+					if (PlayerHGManager.getSize(PlayerState.ALIVE) == 0) {
 						return;
 					}
 					anteTP.put(player.getName(), 0);
 				}
 				int num = anteTP.get(player.getName()) + 1;
-				if (PlayerHGManager.getSize(PlayerState.SPECTATOR) < num) {
+				if (PlayerHGManager.getSize(PlayerState.ALIVE) < num) {
 					num = 0;
 				}
 				
@@ -122,16 +122,12 @@ public class SpectateInventoryEvents implements Listener{
 		if (!PlayerHGManager.getList(PlayerState.SPECTATOR).contains(p.getName())) {
 			return;
 		}
-		if (p.hasPermission("trial.admin")) {
-			event.setFormat(p.getDisplayName() + " §3§l» §f" + event.getMessage().replace("&", "§"));
-			return;
-		}
+		
 		event.setCancelled(true);
 
 		for (Player allspec : Bukkit.getOnlinePlayers()) {
 			if (PlayerHGManager.getList(PlayerState.SPECTATOR).contains(allspec.getName())) {
 				allspec.sendMessage("§7§lEspectador§7 " + p.getName() + " §3» §f" + event.getMessage());
-				p.sendMessage("§7§lEspectador§7 " + p.getName() + " §3» §f" + event.getMessage());
 				return;
 			}
 		}

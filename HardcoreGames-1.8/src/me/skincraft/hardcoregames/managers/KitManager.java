@@ -77,10 +77,17 @@ public class KitManager {
 	}
 	
 	public void removeKit1() {
+		if (getPlayerKit1() == Kits.Nenhum) {
+			return;
+		}
 		KitUtils.primaryKit.replace(player, Kits.Nenhum);
 	}
 	
 	public void removeKit2() {
+		if (getPlayerKit2() == Kits.Nenhum) {
+			return;
+		}
+		
 		KitUtils.secoundaryKit.replace(player, Kits.Nenhum);
 	}
 	

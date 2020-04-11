@@ -1,14 +1,18 @@
 package me.skincraft.hardcoregames;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.henrya.pingapi.PingAPI;
 
+import me.skincraft.hardcoregames.commands.AdminCommand;
 import me.skincraft.hardcoregames.events.CraftingItens;
 import me.skincraft.hardcoregames.listenerloader.ListenersLoader;
 import me.skincraft.hardcoregames.logger.Logging;
@@ -32,6 +36,7 @@ public class Main extends JavaPlugin {
 	public static Plugin getPlugin() {
 		return plugin;
 	}
+	public boolean bungeecord;
 	public static Main getMain() {
 		return (Main) JavaPlugin.getProvidingPlugin((Class<?>) Main.class);
 	}
@@ -72,7 +77,7 @@ public class Main extends JavaPlugin {
 	
 	public void onLoad() {
 		plugin = this;
-		
+		bungeecord = false;
 		this.getLogger().info("Carregando plugin....");
 		
 		log.debug(Level.INFO, "Sistema de logs funcionando", true);
@@ -96,6 +101,8 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		new TimersManager().setState(State.Iniciando);
 		servername = getConfig().getString("Servername");
+		
+		CommandsRegisters();
 		new ListenersLoader(this).load();
 		
 		this.loadPing();
@@ -120,6 +127,24 @@ public class Main extends JavaPlugin {
 		SManager.onEnable();
 		consoleMsg("Plugin de Hardcore Games carregado.");
 		new Iniciando();
+	}
+	
+	final String commandMapFieldClass = "commandMap";
+	private void CommandsRegisters() {
+		try {
+			final Field commandField = Bukkit.getServer().getClass().getDeclaredField(commandMapFieldClass);
+			commandField.setAccessible(true);
+			final CommandMap commandMap = (CommandMap) commandField.get(Bukkit.getServer());
+			
+			commandMap.register("hardcoregames", 
+					new AdminCommand("admin", "Comando para entrar em modo de moderação", 
+					"/admin", Arrays.asList("administrador", "moderar")));
+
+			
+		} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+			log.debug("Erro ao registrar os comandos do servidor\n" + e.getMessage(), e, true);
+		}
 	}
 	
 }

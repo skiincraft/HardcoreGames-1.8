@@ -56,7 +56,6 @@ public class SPlayer {
 	public synchronized void updateScoreboard() {
 		if (!this.sb.hasBoard(this.getPlayer())) {
 			this.sb.setForPlayer(this.getPlayer());
-
 		}
 		
 		if (new TimersManager().getState() == State.Iniciando) {

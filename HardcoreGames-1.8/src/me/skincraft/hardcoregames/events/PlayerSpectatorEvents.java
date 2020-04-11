@@ -102,12 +102,16 @@ public class PlayerSpectatorEvents implements Listener {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void specAntiDup(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
 		if (PlayerHGManager.getList(PlayerState.SPECTATOR).contains(p.getName())) {
+			if (e.getCurrentItem().getType() != Material.getMaterial(397)) {
+				return;
+			}
 			e.setCancelled(true);
-			p.sendMessage("Você não pode pegar itens no modo Espectador!");
+			//p.sendMessage("Você não pode pegar itens no modo Espectador!");
 			return;
 		}
 	}
@@ -205,17 +209,19 @@ public class PlayerSpectatorEvents implements Listener {
 	@EventHandler
 	public void specItemInteract(PlayerInteractEvent e) {
 		Player player = e.getPlayer();
-		if (PlayerHGManager.getList(PlayerState.SPECTATOR).contains(player.getName())) {
+		if (!PlayerHGManager.getList(PlayerState.SPECTATOR).contains(player.getName())) {
 			return;
 		}
 		if (player.getItemInHand().getType() == Material.FLINT_AND_STEEL) {
 			e.setCancelled(true);
 			return;
 		}
+		
 		if (player.getItemInHand().getType() == Material.LAVA_BUCKET) {
 			e.setCancelled(true);
 			return;
 		}
+		
 		if (player.getItemInHand().getType() == Material.WATER_BUCKET) {
 			e.setCancelled(true);
 			return;
