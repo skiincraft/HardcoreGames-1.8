@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.skincraft.hardcoregames.Main;
-import me.skincraft.hardcoregames.managers.KitManager;
+import me.skincraft.hardcoregames.kit.KitManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager.PlayerState;
 import me.skincraft.hardcoregames.mysql.SQLPlayers;

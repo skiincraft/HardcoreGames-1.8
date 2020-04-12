@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import me.skincraft.hardcoregames.Main;
 import me.skincraft.hardcoregames.api.ItemConstruct;
-import me.skincraft.hardcoregames.managers.KitManager;
+import me.skincraft.hardcoregames.kit.KitManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager;
 
 public class SpectatorUtils {

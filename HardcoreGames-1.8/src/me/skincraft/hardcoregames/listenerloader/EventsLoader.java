@@ -7,11 +7,11 @@ import org.bukkit.event.Listener;
 import me.skincraft.hardcoregames.Main;
 import me.skincraft.hardcoregames.utils.ClassGetter;
 
-public class ListenersLoader {
+public class EventsLoader {
 
 	public Main main;
 
-	public ListenersLoader(Main main) {
+	public EventsLoader(Main main) {
 		this.main = main;
 	}
 

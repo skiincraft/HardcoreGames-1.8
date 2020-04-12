@@ -12,8 +12,8 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 import me.skincraft.hardcoregames.Main;
-import me.skincraft.hardcoregames.managers.KitManager;
-import me.skincraft.hardcoregames.managers.KitManager.Kits;
+import me.skincraft.hardcoregames.habilidades.Nenhum;
+import me.skincraft.hardcoregames.kit.KitManager;
 
 public class UtilsAPI {
 	
@@ -98,7 +98,7 @@ public class UtilsAPI {
 
 	public String getHabilidades(Player p) {
 		KitManager kit = new KitManager(p);
-		if (kit.getPlayerKit2().equals(Kits.Nenhum)) {
+		if (kit.getPlayerKit2().equals(new Nenhum())) {
 			return "§c" + kit.getPlayerKit1().getDisplayName();
 		}
 		return "§b" + kit.getPlayerKit1().getDisplayName() + "§7/§b" + kit.getPlayerKit2().getDisplayName();

@@ -7,10 +7,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.skincraft.hardcoregames.enums.ItemList;
+import me.skincraft.hardcoregames.habilidades.Nenhum;
+import me.skincraft.hardcoregames.kit.KitManager;
 import me.skincraft.hardcoregames.managers.GroupsManager;
-import me.skincraft.hardcoregames.managers.KitManager;
 import me.skincraft.hardcoregames.managers.GroupsManager.Cargos;
-import me.skincraft.hardcoregames.managers.KitManager.Kits;
 import me.skincraft.hardcoregames.mysql.SQLPlayers;
 
 public class Utils {
@@ -36,7 +36,7 @@ public class Utils {
 	
 	public static String getHabilidades(Player p) {
 		KitManager kit = new KitManager(p);
-		if (kit.getPlayerKit2().equals(Kits.Nenhum)) {
+		if (kit.getPlayerKit2().equals(new Nenhum())) {
 			return kit.getPlayerKit1().getDisplayName();
 		}
 		return "§b" + kit.getPlayerKit1().getDisplayName() + "§7/§b" + kit.getPlayerKit2().getDisplayName();

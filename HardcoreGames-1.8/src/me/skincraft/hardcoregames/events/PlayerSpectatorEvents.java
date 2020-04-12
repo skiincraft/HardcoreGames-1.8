@@ -23,8 +23,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
-import me.skincraft.hardcoregames.managers.KitManager;
-import me.skincraft.hardcoregames.managers.KitManager.Kits;
+import me.skincraft.hardcoregames.habilidades.Thor;
+import me.skincraft.hardcoregames.kit.KitManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager.PlayerState;
 
@@ -260,7 +260,7 @@ public class PlayerSpectatorEvents implements Listener {
 
 		Player player = (Player) event.getEntity();
 		if ((event.getEntity() instanceof LightningStrike)) {
-			if (new KitManager(player).containsKit(Kits.Thor)) {
+			if (new KitManager(player).containsKit(new Thor())) {
 				event.setDamage(0.0D);
 			} else {
 				event.setDamage(4.0D);

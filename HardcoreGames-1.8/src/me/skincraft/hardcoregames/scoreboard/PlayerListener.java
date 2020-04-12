@@ -15,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 
 import me.skincraft.hardcoregames.Main;
 import me.skincraft.hardcoregames.api.EntenAPI;
-import me.skincraft.hardcoregames.playerdeathevent.PlayerRespawnManager;
 import me.skincraft.hardcoregames.timers.TimersManager;
 
 public class PlayerListener implements Listener {
@@ -54,7 +53,8 @@ public class PlayerListener implements Listener {
 		}
 		
 		if (e.getMessage().toLowerCase().startsWith("/desisto")) {
-			new PlayerRespawnManager(e.getPlayer()).addSpectatorMode();
+			
+			//new PlayerRespawnManager(e.getPlayer()).addSpectatorMode();
 		}
 	}
 }

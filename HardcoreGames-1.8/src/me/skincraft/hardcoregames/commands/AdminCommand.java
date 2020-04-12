@@ -7,12 +7,12 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.skincraft.hardcoregames.Main;
 import me.skincraft.hardcoregames.api.ItemConstruct;
+import me.skincraft.hardcoregames.api.LystMCCommands;
 import me.skincraft.hardcoregames.api.UtilsAPI;
 import me.skincraft.hardcoregames.bossbar.BossBarAPI;
 import me.skincraft.hardcoregames.customevents.AdminListener;
@@ -24,10 +24,10 @@ import me.skincraft.hardcoregames.messages.Messages;
 import me.skincraft.hardcoregames.mysql.SQLPlayers;
 import me.skincraft.hardcoregames.playerdeathevent.PlayerRespawnManager;
 
-public class AdminCommand extends Command {
+public class AdminCommand extends LystMCCommands {
 
-	public AdminCommand(String name, String description, String usageMessage, List<String> aliases) {
-		super(name, description, usageMessage, aliases);
+	public AdminCommand() {
+		super("admin", "Adminmode");
 	}
 	
 	public static Map<String, PlayerState> lastState = new HashMap<>();

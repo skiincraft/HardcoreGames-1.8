@@ -8,11 +8,11 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 
+import me.skincraft.hardcoregames.habilidades.Nenhum;
+import me.skincraft.hardcoregames.kit.KitManager;
 import me.skincraft.hardcoregames.managers.GroupsManager;
-import me.skincraft.hardcoregames.managers.KitManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager;
 import me.skincraft.hardcoregames.managers.GroupsManager.Cargos;
-import me.skincraft.hardcoregames.managers.KitManager.Kits;
 import me.skincraft.hardcoregames.managers.PlayerHGManager.PlayerState;
 import me.skincraft.hardcoregames.mysql.SQLPlayers;
 import me.skincraft.hardcoregames.playerdeathevent.Utils;
@@ -63,7 +63,7 @@ public class PlayerDeathByPlayerEvent extends Event{
 	
 	private String getKit(Player player) {
 		KitManager kit = new KitManager(player);
-		if (kit.getPlayerKit2().equals(Kits.Nenhum)) {
+		if (kit.getPlayerKit2().equals(new Nenhum())) {
 			return kit.getPlayerKit1().getDisplayName();
 		}
 		return kit.getPlayerKit1().getDisplayName() + "§7/" + kit.getPlayerKit2().getDisplayName();
