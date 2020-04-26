@@ -10,12 +10,12 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 
-import me.skincraft.hardcoregames.kit.KitManager;
 import me.skincraft.hardcoregames.managers.GroupsManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager;
 import me.skincraft.hardcoregames.managers.GroupsManager.Cargos;
 import me.skincraft.hardcoregames.managers.PlayerHGManager.PlayerState;
 import me.skincraft.hardcoregames.mysql.SQLPlayers;
+import me.skincraft.other.kit.KitManager;
 
 public class PlayerDeathByMobEvent extends Event {
 	

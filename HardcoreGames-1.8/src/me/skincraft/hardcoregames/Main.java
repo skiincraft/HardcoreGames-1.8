@@ -12,8 +12,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.henrya.pingapi.PingAPI;
 
 import me.skincraft.hardcoregames.events.CraftingItens;
-import me.skincraft.hardcoregames.kit.KitClass;
-import me.skincraft.hardcoregames.kit.KitsLoader;
 import me.skincraft.hardcoregames.listenerloader.CommandsLoader;
 import me.skincraft.hardcoregames.listenerloader.EventsLoader;
 import me.skincraft.hardcoregames.logger.Logging;
@@ -25,6 +23,10 @@ import me.skincraft.hardcoregames.timers.Iniciando;
 import me.skincraft.hardcoregames.timers.State;
 import me.skincraft.hardcoregames.timers.TimersManager;
 import me.skincraft.hardcoregames.utils.ConfigurationFiles;
+import me.skincraft.inventorymanager.InventarioAPI;
+import me.skincraft.inventorymanager.Loader;
+import me.skincraft.other.kit.KitClass;
+import me.skincraft.other.kit.KitsLoader;
 
 public class Main extends JavaPlugin {
 
@@ -36,6 +38,8 @@ public class Main extends JavaPlugin {
 	public static Plugin plugin;
 	public boolean bungeecord;
 	public static List<KitClass> kitlist = new ArrayList<KitClass>();
+	public static List<InventarioAPI> inventorylist = new ArrayList<InventarioAPI>();
+	
 	public static List<String> freeKits = new ArrayList<String>();
 	
 	
@@ -110,6 +114,7 @@ public class Main extends JavaPlugin {
 		new EventsLoader(this).load();
 		new CommandsLoader(this).load();
 		new KitsLoader(this).load();
+		new Loader(this).load();
 		
 		this.loadPing();
 		this.loadMOTD();

@@ -12,8 +12,8 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 import me.skincraft.hardcoregames.Main;
-import me.skincraft.hardcoregames.habilidades.Nenhum;
-import me.skincraft.hardcoregames.kit.KitManager;
+import me.skincraft.other.habilidades.Nenhum;
+import me.skincraft.other.kit.KitManager;
 
 public class UtilsAPI {
 	

@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -23,8 +22,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
-import me.skincraft.hardcoregames.habilidades.Thor;
-import me.skincraft.hardcoregames.kit.KitManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager.PlayerState;
 
@@ -251,7 +248,7 @@ public class PlayerSpectatorEvents implements Listener {
 			return;
 		}
 	}
-
+/*
 	@EventHandler
 	public void specThorDamage(EntityDamageByEntityEvent event) {
 		if (!(event.getEntity() instanceof Player)) {
@@ -267,5 +264,5 @@ public class PlayerSpectatorEvents implements Listener {
 				event.getEntity().setFireTicks(200);
 			}
 		}
-	}
+	}*/
 }

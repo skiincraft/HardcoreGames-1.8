@@ -12,13 +12,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.skincraft.hardcoregames.Main;
-import me.skincraft.hardcoregames.kit.KitManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager.PlayerState;
 import me.skincraft.hardcoregames.mysql.SQLPlayers;
 import me.skincraft.hardcoregames.mysql.SQLPlayers.SQLOptions;
 import me.skincraft.hardcoregames.timers.State;
 import me.skincraft.hardcoregames.timers.TimersManager;
+import me.skincraft.other.kit.KitManager;
 
 public class CustomizationFile {
 	

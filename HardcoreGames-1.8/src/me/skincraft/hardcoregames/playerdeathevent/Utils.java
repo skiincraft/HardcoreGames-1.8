@@ -7,11 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.skincraft.hardcoregames.enums.ItemList;
-import me.skincraft.hardcoregames.habilidades.Nenhum;
-import me.skincraft.hardcoregames.kit.KitManager;
 import me.skincraft.hardcoregames.managers.GroupsManager;
 import me.skincraft.hardcoregames.managers.GroupsManager.Cargos;
 import me.skincraft.hardcoregames.mysql.SQLPlayers;
+import me.skincraft.other.habilidades.Nenhum;
+import me.skincraft.other.kit.KitManager;
 
 public class Utils {
 

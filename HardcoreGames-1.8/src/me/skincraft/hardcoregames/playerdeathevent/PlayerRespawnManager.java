@@ -14,7 +14,6 @@ import me.skincraft.hardcoregames.Main;
 import me.skincraft.hardcoregames.api.CustomizationFile;
 import me.skincraft.hardcoregames.api.EntenAPI;
 import me.skincraft.hardcoregames.api.ItemConstruct;
-import me.skincraft.hardcoregames.kit.KitManager;
 import me.skincraft.hardcoregames.managers.GroupsManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager;
 import me.skincraft.hardcoregames.managers.PlayerHGManager.PlayerState;
@@ -22,6 +21,8 @@ import me.skincraft.hardcoregames.managers.GroupsManager.Cargos;
 import me.skincraft.hardcoregames.mysql.SQLPlayers;
 import me.skincraft.hardcoregames.timers.State;
 import me.skincraft.hardcoregames.timers.TimersManager;
+import me.skincraft.inventorymanager.inventory.SpectateInventory;
+import me.skincraft.other.kit.KitManager;
 
 public class PlayerRespawnManager {
 	
@@ -72,10 +73,11 @@ public class PlayerRespawnManager {
 		player.getInventory().clear();
 		player.eject();
 		new PlayerHGManager(player).addSpectatorState();
+		SpectateInventory spectateinv = new SpectateInventory();
 		
-		new ItemConstruct(Material.WOOD_PLATE, "§cJogador Anterior", 3, player.getInventory(), "", "§7Utilize este item para teleportar", "§7para players que estão vivos.").build();
-		new ItemConstruct(Material.SLIME_BALL, "§6Jogadores Restantes", 4, player.getInventory(), "", "§7Utilize este item para teleportar", "§7para players que estão vivos.").build();
-		new ItemConstruct(Material.STONE_PLATE, "§aProximo Jogador", 5, player.getInventory(), "", "§7Utilize este item para teleportar", "§7para players que estão vivos.").build();
+		player.getInventory().setItem(3, spectateinv.getContents().get(0));
+		player.getInventory().setItem(4, spectateinv.getHotbaritem());
+		player.getInventory().setItem(5, spectateinv.getContents().get(1));
 		
 		player.setGameMode(GameMode.SURVIVAL);
 		player.setAllowFlight(true);
